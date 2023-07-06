@@ -129,6 +129,17 @@ assert_raises() {
     _assert_fail "program terminated with code $status instead of $expected" "$1" "$3" "$result"
 }
 
+assert_true() {
+    # assert_true <command> [stdin]
+    assert_raises "$1" 0 ${3:-}
+}
+
+assert_false() {
+    # assert_false <command> [stdin]
+    modified_command="$1"'; [ $? -ne 0 ]'
+    assert_raises "$modified_command" 0 ${3:-}
+}
+
 _assert_fail() {
     # _assert_fail <failure> <command> <stdin> <result>
     [[ -n "$DEBUG" ]] && echo -n X
